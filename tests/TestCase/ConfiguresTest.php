@@ -11,7 +11,7 @@ use Cake\TestSuite\TestCase;
 class ConfiguresTest extends TestCase
 {
 
-    public function testDefaultConfigures()
+    public function testDefaultConfigures(): void
     {
         $expected = [
             'title' => 'AdminLTE',
@@ -32,7 +32,7 @@ class ConfiguresTest extends TestCase
         $this->assertEquals($expected, Configure::read('Theme'));
     }
 
-    public function testNotOverridingUserConfigures()
+    public function testNotOverridingUserConfigures(): void
     {
         $expected = [
             'title' => 'my site name',

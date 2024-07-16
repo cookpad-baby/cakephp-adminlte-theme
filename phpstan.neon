@@ -1,0 +1,8 @@
+parameters:
+  level: 9
+  checkGenericClassInNonGenericObjectType: false
+  bootstrapFiles:
+    - phpstan_classes.php
+  paths:
+    - src/
+    - tests/
