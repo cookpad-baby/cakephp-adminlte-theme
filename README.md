@@ -1,18 +1,6 @@
-# CakePHP AdminLTE Theme (2.0.3)
+# CakePHP5 AdminLTE Theme
 
-**What's the news**
-
-The AdminLTE was updated version to 2.4.18.
-
-The CakePHP was updated version compatible to 4.4.
-
-### Installation
-
-You can install using [composer](http://getcomposer.org).
-
-```
-composer require maiconpinto/cakephp-adminlte-theme
-```
+clone from https://github.com/maiconpinto/cakephp-adminlte-theme
 
 ### Enable Plugin
 
