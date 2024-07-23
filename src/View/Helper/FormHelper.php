@@ -7,9 +7,13 @@ use Cake\Utility\Hash;
 use Cake\View\View;
 use Cake\Utility\Inflector;
 
-class FormHelper extends CakeFormHelper {
+class FormHelper extends CakeFormHelper
+{
 
-    private $templates = [
+    /**
+     * @var array|string[]
+     */
+    private array $templates = [
         'button' => '<button{{attrs}}>{{text}}</button>',
         'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}>',
         'checkboxFormGroup' => '{{label}}',
@@ -46,11 +50,15 @@ class FormHelper extends CakeFormHelper {
 
     public function __construct(View $View, array $config = [])
     {
-        $this->_defaultConfig['templates'] = array_merge($this->_defaultConfig['templates'], $this->templates);
+        if (is_array($this->_defaultConfig['templates'])) {
+            $this->_defaultConfig['templates'] = array_merge($this->_defaultConfig['templates'], $this->templates);
+        } else {
+            throw new \Exception("\$this->_defaultConfig['templates'] is not an array");
+        }
         parent::__construct($View, $config);
     }
 
-    public function create($context = null, array $options = []) : string
+    public function create($context = null, array $options = []): string
     {
         $options += ['role' => 'form'];
         return parent::create($context, $options);
@@ -70,13 +78,17 @@ class FormHelper extends CakeFormHelper {
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * @param string $fieldName
+     * @param array<string, mixed> $options
+     * @return string
      * @see \Cake\View\Helper\FormHelper::input()
-     * @deprecated 1.1.1 Use FormHelper::control() instead, due to \Cake\View\Helper\FormHelper::input() deprecation 
+     * @deprecated 1.1.1 Use FormHelper::control() instead, due to \Cake\View\Helper\FormHelper::input() deprecation
      */
-    public function input($fieldName, array $options = [])
+
+    public function input(string $fieldName, array $options = []): string
     {
+        trigger_error(sprintf('%s is no longer supported', __METHOD__), E_USER_WARNING);
 
         $_options = [];
 
@@ -84,7 +96,7 @@ class FormHelper extends CakeFormHelper {
             $options['type'] = $this->_inputType($fieldName, $options);
         }
 
-        switch($options['type']) {
+        switch ($options['type']) {
             case 'checkbox':
             case 'radio':
             case 'date':
@@ -99,28 +111,29 @@ class FormHelper extends CakeFormHelper {
 
         return parent::control($fieldName, $options);
     }
-	public function control(string $fieldName, array $options = []): string
-	{
 
-		$_options = [];
+    public function control(string $fieldName, array $options = []): string
+    {
 
-		if (!isset($options['type'])) {
-			$options['type'] = $this->_inputType($fieldName, $options);
-		}
+        $_options = [];
 
-		switch($options['type']) {
-			case 'checkbox':
-			case 'radio':
-			case 'date':
-				break;
-			default:
-				$_options = ['class' => 'form-control'];
-				break;
+        if (!isset($options['type'])) {
+            $options['type'] = $this->_inputType($fieldName, $options);
+        }
 
-		}
+        switch ($options['type']) {
+            case 'checkbox':
+            case 'radio':
+            case 'date':
+                break;
+            default:
+                $_options = ['class' => 'form-control'];
+                break;
 
-		$options += $_options;
+        }
 
-		return parent::control($fieldName, $options);
-	}
+        $options += $_options;
+
+        return parent::control($fieldName, $options);
+    }
 }
