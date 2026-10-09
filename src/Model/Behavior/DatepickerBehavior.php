@@ -34,9 +34,9 @@ class DatepickerBehavior extends Behavior
     /**
      * Preparing the data
      *
-     * @param \Cake\Event\Event $event
-     * @param \ArrayObject $data
-     * @param \ArrayObject $options
+     * @param \Cake\Event\Event<\Cake\ORM\Table> $event
+     * @param \ArrayObject<string, mixed> $data
+     * @param \ArrayObject<string, mixed> $options
      * @return void
      */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
@@ -46,7 +46,7 @@ class DatepickerBehavior extends Behavior
             $locale = Configure::read('App.defaultLocale');
 
             foreach ($this->_config['fields'] as $key) {
-                if (isset($data[$key]) && is_string($data[$key])) {
+                if (is_string($key) && isset($data[$key]) && is_string($data[$key])) {
                     if ($locale == 'pt_BR') {
                         list($d, $m, $y) = explode($separator, $data[$key]);
                     } else {
