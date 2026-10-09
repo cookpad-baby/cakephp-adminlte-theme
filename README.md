@@ -71,12 +71,11 @@ If you want to [Customize Layout](https://github.com/maiconpinto/cakephp-adminlt
 
 ### Layouts
 
-There are 10 layout files.
+There are 9 layout files.
 
 - boxed
 - collapsed
 - default **it's the main layout**
-- documentation
 - fixed
 - lockscreen
 - login
@@ -94,7 +93,7 @@ There are 3 Blocks where you can extend your theme.
 <?php echo $this->fetch('css'); ?>
 ```
 
-One example is `src/Template/Pages/home.ctp`:
+Example:
 
 ```php
 <?php echo $this->Html->css('AdminLTE./bower_components/morris.js/morris', ['block' => 'css']); ?>
@@ -106,7 +105,7 @@ One example is `src/Template/Pages/home.ctp`:
 <?php echo $this->fetch('script'); ?>
 ```
 
-One example is `src/Template/Pages/home.ctp`:
+Example:
 
 ```php
 <?php echo $this->Html->script('AdminLTE./bower_components/morris.js/morris.min', ['block' => 'script']); ?>
@@ -118,7 +117,7 @@ One example is `src/Template/Pages/home.ctp`:
 <?php echo $this->fetch('scriptBottom'); ?>
 ```
 
-One example is `src/Template/Pages/home.ctp`:
+Example:
 
 ```php
 <?php $this->start('scriptBottom'); ?>
