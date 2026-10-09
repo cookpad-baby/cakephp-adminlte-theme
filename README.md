@@ -96,7 +96,7 @@ There are 3 Blocks where you can extend your theme.
 Example:
 
 ```php
-<?php echo $this->Html->css('AdminLTE./bower_components/morris.js/morris', ['block' => 'css']); ?>
+<?php echo $this->Html->css('my-page', ['block' => 'css']); ?>
 ```
 
 - **script**
@@ -108,7 +108,7 @@ Example:
 Example:
 
 ```php
-<?php echo $this->Html->script('AdminLTE./bower_components/morris.js/morris.min', ['block' => 'script']); ?>
+<?php echo $this->Html->script('my-page', ['block' => 'script']); ?>
 ```
 
 - **scriptBottom**
@@ -122,7 +122,7 @@ Example:
 ```php
 <?php $this->start('scriptBottom'); ?>
     <script>
-      $.widget.bridge('uibutton', $.ui.button);
+      $(function () { console.log('ready'); });
     </script>
 <?php  $this->end(); ?>
 ```
