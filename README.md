@@ -71,12 +71,11 @@ If you want to [Customize Layout](https://github.com/maiconpinto/cakephp-adminlt
 
 ### Layouts
 
-There are 10 layout files.
+There are 9 layout files.
 
 - boxed
 - collapsed
 - default **it's the main layout**
-- documentation
 - fixed
 - lockscreen
 - login
@@ -94,10 +93,10 @@ There are 3 Blocks where you can extend your theme.
 <?php echo $this->fetch('css'); ?>
 ```
 
-One example is `src/Template/Pages/home.ctp`:
+Example:
 
 ```php
-<?php echo $this->Html->css('AdminLTE./bower_components/morris.js/morris', ['block' => 'css']); ?>
+<?php echo $this->Html->css('my-page', ['block' => 'css']); ?>
 ```
 
 - **script**
@@ -106,10 +105,10 @@ One example is `src/Template/Pages/home.ctp`:
 <?php echo $this->fetch('script'); ?>
 ```
 
-One example is `src/Template/Pages/home.ctp`:
+Example:
 
 ```php
-<?php echo $this->Html->script('AdminLTE./bower_components/morris.js/morris.min', ['block' => 'script']); ?>
+<?php echo $this->Html->script('my-page', ['block' => 'script']); ?>
 ```
 
 - **scriptBottom**
@@ -118,12 +117,12 @@ One example is `src/Template/Pages/home.ctp`:
 <?php echo $this->fetch('scriptBottom'); ?>
 ```
 
-One example is `src/Template/Pages/home.ctp`:
+Example:
 
 ```php
 <?php $this->start('scriptBottom'); ?>
     <script>
-      $.widget.bridge('uibutton', $.ui.button);
+      $(function () { console.log('ready'); });
     </script>
 <?php  $this->end(); ?>
 ```
