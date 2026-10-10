@@ -2,6 +2,36 @@
 
 clone from https://github.com/maiconpinto/cakephp-adminlte-theme
 
+### Maintain bundled browser assets
+
+The npm toolchain is pinned with Volta to Node.js 22.23.2 and npm 12.0.2.
+`engines` and `.npmrc` also check compatibility when using npm without Volta.
+Use the pinned tools and run:
+
+```sh
+npm ci
+npm run assets:sync
+npm run assets:check
+```
+
+`package.json` pins Bootstrap 3.4.1, jQuery 3.7.1, FastClick 1.0.6,
+Font Awesome 4.7.0 and jQuery slimScroll 1.3.8. Commit `package-lock.json`
+and the generated browser files in `webroot/bower_components/` together.
+The sync command copies distributions and attribution files; it does not rebuild
+the upstream libraries or copy their build manifests into the public directory.
+`assets:check` verifies that the committed files match the installed packages.
+
+The existing asset paths are preserved for applications such as babypad-pfm.
+Composer consumers use the committed files and do not need Node.js or npm to
+install or run the theme. When changing a dependency, check consumer compatibility
+before updating its exact version and regenerating the assets.
+
+Ionicons 2.0.0 and the libraries in `webroot/plugins/` remain vendored separately.
+Ionicons 2.0.0 has no matching npm release, so this migration preserves its files.
+The npm migration does not upgrade Bootstrap beyond version 3 or establish the
+PHP/Node versions running in consuming applications. SBOM tools must distinguish
+upstream compatibility ranges from the actual project toolchain.
+
 ### Enable Plugin
 
 ```php
