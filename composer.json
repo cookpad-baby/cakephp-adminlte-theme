@@ -6,7 +6,7 @@
   "homepage": "https://github.com/cookpad-baby/cakephp-adminlte-theme",
   "license": "MIT",
   "require": {
-    "php": "^8.3.8",
+    "php": "^8.3.35",
     "cakephp/cakephp": "^5.4.3"
   },
   "require-dev": {
