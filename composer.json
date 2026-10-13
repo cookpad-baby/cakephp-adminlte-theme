@@ -16,5 +16,10 @@
     "psr-4": {
       "AdminLTE\\": "src"
     }
+  },
+  "config": {
+    "platform": {
+        "php": "8.3.35"
+    }
   }
 }
