@@ -2,6 +2,78 @@
 
 clone from https://github.com/maiconpinto/cakephp-adminlte-theme
 
+### PHP runtime requirements
+
+PHP **8.4.27 or later in the 8.4 series** is required. Composer's
+`require.php` is `~8.4.27` (`>=8.4.27 <8.5.0`); PHP 8.3, 8.4.0–8.4.26
+and 8.5 are not supported. `config.platform.php` is `8.4.27` for dependency
+resolution only: it does **not** install or upgrade the actual PHP runtime.
+
+This repository is a theme plugin. It has one Composer lock file and no Docker,
+CI, deployment, cron or server configuration. The additional Composer manifest
+in the vendored Ionicons assets has no PHP runtime requirement. Runtime changes
+must also be made in each consuming application; keep its existing CLI/FPM and
+OS variant and pin official Docker images to a concrete PHP patch version.
+
+Run Composer in the consuming project's designated Docker environment, using
+PHP 8.4.27 and the extensions required by the lock file (including `intl`,
+`mbstring`, `dom` and `xmlwriter`). For a standalone verification, use a temporary
+PHP 8.4.27 Docker image with those extensions and Composer installed. Update
+lock metadata without upgrading dependency versions, then compare the complete
+`packages` and `packages-dev` entries before and after:
+
+```sh
+composer update --lock --no-install --no-scripts --no-plugins
+composer install --no-interaction --no-scripts --no-plugins
+composer validate --strict
+composer check-platform-reqs
+php tests/php-requirement.php /usr/local/bin/composer
+vendor/bin/phpunit --display-all-issues
+composer audit --locked
+```
+
+The boundary regression uses the Semver parser bundled in the Composer PHAR
+(pass its path if different). It checks the manifest and lock PHP constraints,
+the dependency resolution platform, and every locked dependency's PHP constraint.
+Run the regression and PHPUnit with Docker `--network none`, `error_reporting=E_ALL`,
+no production credentials, and a dedicated test database if database access is
+needed. The current configuration tests do not query a database. Composer's
+dependency download and advisory audit require network access and should run
+separately. Keep deprecations visible and record them separately from failures.
+
+Before treating the server update as complete, verify all of the following in
+each consuming application's environment:
+
+- CLI, FPM and every cron/job process actually run PHP >=8.4.27 and <8.5.
+  Check each binary explicitly; a successful Composer platform override is not
+  evidence of the installed version.
+- All required extensions and the intended `php.ini`, `conf.d` and FPM pool
+  settings load in both CLI and FPM. Run `composer check-platform-reqs` there.
+- Nginx points to the correct FPM socket or port. Restart/reload the appropriate
+  service and confirm the version serving requests.
+- OS package installations use environment-appropriate names such as `php8.4`
+  and `php8.4-fpm` in deployment commands, cron and sudo rules, with no patch
+  number in executable/service names. Official containers normally use `php`
+  and `php-fpm` instead.
+- Service users retain the required sudo permissions and cron uses the intended
+  executable and configuration, independent of an interactive shell's PATH.
+
+Repository changes alone do not complete vulnerability remediation on servers.
+
+Verification on 2026-10-22 used a temporary image built from `php:8.4.27-fpm`
+(Debian trixie), with `intl`, Composer 2.10.3 and `php.ini-development` plus
+`error_reporting=E_ALL`. CLI/FPM reported 8.4.27; extension/configuration loading
+and `php-fpm -tt` passed. Composer strict validation, platform checks and the
+boundary regression passed. PHPUnit passed 2 tests / 2 assertions with external
+network access disabled and no application credentials or database connection.
+There is no separate application security test suite in this repository;
+`composer audit --locked` found no advisories. No PHP deprecations were emitted
+by these checks; Composer reported that the root package version could not be
+detected and defaulted to 1.0.0. All 42 locked package entries were unchanged;
+Composer regenerated platform/hash and format/API metadata. `package-lock.json`
+was unchanged. Consuming applications, live HTTP/FPM integration and servers
+were not tested or updated.
+
 ### Maintain bundled browser assets
 
 The npm toolchain is pinned with Volta to Node.js 22.23.2 and npm 12.0.2.
