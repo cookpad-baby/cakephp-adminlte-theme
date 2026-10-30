@@ -76,7 +76,7 @@ were not tested or updated.
 
 ### Maintain bundled browser assets
 
-The npm toolchain is pinned with Volta to Node.js 22.23.2 and npm 12.0.2.
+The npm toolchain is pinned with Volta to Node.js 22.23.4 and npm 12.0.2.
 `engines` and `.npmrc` also check compatibility when using npm without Volta.
 Use the pinned tools and run:
 
