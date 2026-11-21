@@ -19,9 +19,9 @@ $cases = [
     '8.3.35' => false,
     '8.3.99' => false,
     '8.4.0' => false,
-    '8.4.26' => false,
-    '8.4.27' => true,
+    '8.4.27' => false,
     '8.4.28' => true,
+    '8.4.29' => true,
     '8.4.99' => true,
     '8.5.0' => false,
 ];
@@ -36,14 +36,14 @@ foreach (['composer.json' => $manifest['require']['php'], 'composer.lock' => $lo
 }
 
 foreach (['composer.json' => $manifest['config']['platform']['php'], 'composer.lock' => $lock['platform-overrides']['php']] as $file => $version) {
-    if ($version !== '8.4.27') {
-        $failures[] = "$file: dependency resolution platform must be 8.4.27";
+    if ($version !== '8.4.28') {
+        $failures[] = "$file: dependency resolution platform must be 8.4.28";
     }
 }
 
 foreach (array_merge($lock['packages'], $lock['packages-dev']) as $package) {
-    if (isset($package['require']['php']) && !Composer\Semver\Semver::satisfies('8.4.27', $package['require']['php'])) {
-        $failures[] = $package['name'] . ' does not support PHP 8.4.27';
+    if (isset($package['require']['php']) && !Composer\Semver\Semver::satisfies('8.4.28', $package['require']['php'])) {
+        $failures[] = $package['name'] . ' does not support PHP 8.4.28';
     }
 }
 
