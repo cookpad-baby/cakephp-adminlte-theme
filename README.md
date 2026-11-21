@@ -4,9 +4,9 @@ clone from https://github.com/maiconpinto/cakephp-adminlte-theme
 
 ### PHP runtime requirements
 
-PHP **8.4.27 or later in the 8.4 series** is required. Composer's
-`require.php` is `~8.4.27` (`>=8.4.27 <8.5.0`); PHP 8.3, 8.4.0–8.4.26
-and 8.5 are not supported. `config.platform.php` is `8.4.27` for dependency
+PHP **8.4 series** is required; the minimum patch release is set by Composer's
+`require.php` in `composer.json` (below 8.5.0). PHP 8.3, 8.4 patch releases
+below that minimum, and 8.5 are not supported. `config.platform.php` is set for dependency
 resolution only: it does **not** install or upgrade the actual PHP runtime.
 
 This repository is a theme plugin. It has one Composer lock file and no Docker,
@@ -16,9 +16,9 @@ must also be made in each consuming application; keep its existing CLI/FPM and
 OS variant and pin official Docker images to a concrete PHP patch version.
 
 Run Composer in the consuming project's designated Docker environment, using
-PHP 8.4.27 and the extensions required by the lock file (including `intl`,
+PHP 8.4 (satisfying `require.php`) and the extensions required by the lock file (including `intl`,
 `mbstring`, `dom` and `xmlwriter`). For a standalone verification, use a temporary
-PHP 8.4.27 Docker image with those extensions and Composer installed. Update
+PHP 8.4 Docker image with those extensions and Composer installed. Update
 lock metadata without upgrading dependency versions, then compare the complete
 `packages` and `packages-dev` entries before and after:
 
@@ -44,7 +44,7 @@ separately. Keep deprecations visible and record them separately from failures.
 Before treating the server update as complete, verify all of the following in
 each consuming application's environment:
 
-- CLI, FPM and every cron/job process actually run PHP >=8.4.27 and <8.5.
+- CLI, FPM and every cron/job process actually run PHP satisfying `require.php` in `composer.json` (8.4 series, <8.5).
   Check each binary explicitly; a successful Composer platform override is not
   evidence of the installed version.
 - All required extensions and the intended `php.ini`, `conf.d` and FPM pool
